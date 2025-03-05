@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+			charset="UTF-8">
+<title>Szép kis autók</title>
+<link rel="stylesheet" href="theme.css">
+
+<style>
+	img {
+		width: 100%;
+		transition-duration: 0.4s;
+	}
+	
+	.gallery {
+	  display: grid;
+	  grid-template-columns: repeat(3, 33.1%);
+	  grid-gap: 0.5vw;
+		justify-content: center;
+	}
+	
+	@media screen and (max-width: 800px) {
+	  .gallery {
+		  display: grid;
+		  grid-template-columns: repeat(2, 49.7%);
+		  grid-gap: 1vw;
+			justify-content: center;
+	  }
+	}
+	
+	@media screen and (min-width: 1800px) {
+	  .gallery {
+		  display: grid;
+		  grid-template-columns: repeat(4, 24.6%);
+		  grid-gap: 0.3vw;
+			justify-content: center;
+	  }
+	}
+	
+	.container {
+		margin-bottom: -1.6em; /* -2vw */
+		position: relative;
+	}
+	.container img {
+		position: absolute;
+	}
+	.img-date {
+		position: absolute;
+		bottom: 2.9em; /* 2.2vw */
+		right: 0.45em; /* 0.4vw */
+		font-size: 0.6em; /* 70% 1.1vw */
+		font-family: Verdana, sans-serif;
+		color: rgb(246, 250, 132);
+		text-shadow: rgb(0, 0, 0, 0.5) 0 0 3px;
+	}
+	/*
+	img.half {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		left: 50%;
+		height: auto;
+		width: auto;
+		max-height: 80vh;
+		max-width: 80vw;
+		transform: scale(0.5);
+	}
+	
+	.hello {
+		width: 100%;
+		height: 100%;
+		margin-bottom: -20em;
+	}
+	*/
+</style>
+
+<script>
+	const images = document.querySelectorAll(".img");
+	images.forEach(image => {
+		image.addEventListener("click", () => {
+			image.classList.toggle("half");
+		});
+	});
+</script>
+
+</head>
+
+<body>
+	
+<div class="site-title"><a class="title-link" href="index.html">matyaslagos.net</a></div>
+
+<div class="page-title">Szép kis autók</div>
+
+<div class="gallery">
+	<!--
+	<div class="container">
+		<img src="<img src="https://i.ibb.co/h17FqPG/IMG-6468.jpg" alt="IMG-6468">">
+		<div class="img-date">
+			2024-01-12
+		</div>
+	</div>
+	
+	<div class="hello">
+		<img src="https://i.ibb.co/JknkRKN/szka-21.png">
+	</div>
+	-->
+  <img src="https://live.staticflickr.com/65535/53937558067_01c0a4ae4c_o.png">
+  <img src="https://live.staticflickr.com/65535/53938795099_3ed17977cb_o.png">
+  <img src="https://live.staticflickr.com/65535/53938708128_327cdb6b87_o.png">
+  <img src="https://live.staticflickr.com/65535/53831263332_ffac22be11_o.png">
+  <img src="https://live.staticflickr.com/65535/53831321345_7b55c05aac_o.png">
+	<img src="https://i.ibb.co/CJyvGvR/szka-30.png">
+	<img src="https://i.ibb.co/Rp5tTCC/szka-29.png">
+	<img src="https://i.ibb.co/qk6LrWX/szka-27.png">
+	<img src="https://i.ibb.co/jkBGkFp/szka-27.png">
+	<img src="https://i.ibb.co/zPgLYj8/szka-26.png">
+	<img src="https://i.ibb.co/cxKkkLT/szka-23.png">
+	<img src="https://i.ibb.co/p0SGLMc/szka-24.png">
+	<img src="https://i.ibb.co/zG8Q29V/szka-25.png">
+	<img src="https://i.ibb.co/6rTVVJc/szka-22.png">
+	<img src="https://i.ibb.co/FWZk3nr/szka-21.png">
+	<img src="https://i.ibb.co/DkGVHR8/szka-20.png">
+	<img src="https://i.ibb.co/pXhwjS9/szka-19.png">
+	<img src="https://i.ibb.co/YPNGbry/szka-18.png">
+	<img src="https://i.ibb.co/GkJQBP5/szka-17.png">
+	<img src="https://i.ibb.co/Hzsxfkt/szka-16.png">
+	<img src="https://i.ibb.co/D4cSb7z/szka-15.png">
+	<img src="https://i.ibb.co/pnybwqn/szka-14.png">
+	<img src="https://i.ibb.co/dtBywDs/szka-13.png">
+	<img src="https://i.ibb.co/6bmNmgG/szka-12.png">
+	<img src="https://i.ibb.co/wgSXWRF/szka-11.png">
+	<img src="https://i.ibb.co/D5gzNFR/szka-10.png">
+	<img src="https://i.ibb.co/S6sWQ1v/szka-9.png">
+	<img src="https://i.ibb.co/PDbw5fj/szka-8.png">
+	<img src="https://i.ibb.co/s1tTyBJ/szka-7.png">
+	<img src="https://i.ibb.co/3c8tJKb/szka-6.png">
+	<img src="https://i.ibb.co/52WW4Yv/szka-5.png">
+	<img src="https://i.ibb.co/mJCCWM3/szka-4.png">
+	<img src="https://i.ibb.co/Xt5ptPr/szka-3.png">
+	<img src="https://i.ibb.co/yPKhwFq/szka-2.png">
+	<img src="https://i.ibb.co/JztR8Ks/szka-1.png">
+</div>
+
+</body>
+</html>

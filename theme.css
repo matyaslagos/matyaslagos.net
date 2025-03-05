@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
+
+.logo {
+	width: 198px;
+	height: 39.01px; /* 197.5: 38.91 */
+	margin-left: -2px;
+}
+
+body {
+	padding-top: 5pt;
+  margin-left: 20pt;
+  margin-right: 20pt;
+	font-family: 'STIX Two Text', serif;
+}
+
+/* Main title */
+.site-title {
+	font-size: 20pt;
+	font-weight: 600;
+	padding-top: 10pt;
+}
+.title-link {
+	color: rgb(25,143,137,0.7);
+}
+.title-link:hover {
+	color: rgb(25,143,137);
+}
+
+/* Homepage menu */
+.home-menu {
+	line-height: 22pt;
+}
+.home-menu-item {
+  color: rgb(25,143,137);
+  font-size: 14.5pt;
+  font-weight: 500;
+  padding-right: 5pt;
+	white-space: nowrap;
+}
+
+/* Page title */
+.page-title {
+	text-align: center;
+	font-weight: 500;
+	font-size: 18pt;
+	padding-bottom: 30pt;
+	padding-top: 40pt;
+}

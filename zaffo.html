@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+			charset="UTF-8">
+<title>Mapparendszerezés</title>
+<link rel="stylesheet" href="theme.css">
+
+<style>
+  .card-text {
+		font-family: Courier;
+		text-align: left;
+	  font-size: 12.5pt;
+		line-height: 16.5pt;
+		color: #4a433f;
+		text-shadow: 0px 0px 1px rgb(116, 116, 115, 0.7); /*#979797*/
+  }
+	
+	span.underlined {
+		text-decoration: underline;
+	}
+	
+	span.no-br {
+		white-space: nowrap;
+	}
+	
+	.has-bg {
+	  background-repeat: no-repeat;
+	  background-position: center center;
+	  background-size: cover;
+	}
+	.bg-paper {
+	  background-image: url(Assets/paper-texture-2.png);
+	}
+	
+	.fade-in {
+		animation: fadeInAnimation ease 3s;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+	}
+	@keyframes fadeInAnimation {
+	  0% {
+	    opacity: 0;
+	  }
+		20% {
+			opacity: 0.05;
+		}
+	  100% {
+	    opacity: 1;
+	  }
+	}
+	
+	.card {
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		transition: 0.5s;
+		max-width: 400px;
+		margin-right: auto;
+		margin-left: auto;
+		margin-top: 40px;
+		justify-content: center;
+		align-items: center;
+		box-shadow: 0px 4px 8px 0 rgba(0,0,0,0.2);
+		
+		animation: fadeInAnimation ease 4s;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+	}
+	@keyframes fadeInAnimation {
+	  0% {
+	    opacity: 0;
+	  }
+	  100% {
+	    opacity: 1;
+	  }
+	}
+	.container{
+		position: relative;
+		align-items: center;
+		justify-content: center;
+		padding-top: 8px; /* 10px 1.45vh */
+		padding-bottom: 8px; /* 11px 1.6vh */
+		padding-left: 31px; /* 31px */
+		padding-right: 30px; /* 30px */
+	}
+	
+	.embedded-img {
+		max-width: 380px;
+		width: 80%;
+		margin-top: 1.1em;
+		margin-bottom: 0.4em;
+		box-shadow: 0px 0px 2.5px 0 rgba(69, 69, 69, 0.2);
+	}
+	
+	.img-centering {
+		text-align: center;
+	}
+	
+	.counter {
+		font-family: Courier;
+		font-weight: normal;
+		text-align: right;
+	  font-size: 11pt;
+		line-height: 12pt;
+		color: rgb(239, 227, 225, 0.6); /*rgb(239, 227, 225, 0.5)*/
+		text-shadow: 0px 0px 0.4px #979797; /*0px 0px 0.3px #979797*/
+		position: absolute;
+		right: 2.7pt;
+		bottom: -10.7pt;
+	}
+	
+	.disclaimer {
+		max-width: 400px;
+		margin-right: auto;
+		margin-left: auto;
+		margin-top: 60px;
+		text-align: center;
+		font-style: italic;
+		font-size: 11pt;
+		color: rgba(0, 0, 0, 0.9);
+		line-height: 12.5pt;
+		
+		animation: delayedFadeInAnimation ease 4s;
+		animation-iteration-count: 1;
+		animation-fill-mode: forwards;
+	}
+	@keyframes delayedFadeInAnimation {
+	  0% {
+	    opacity: 0;
+	  }
+		10% {
+			opacity: 0;
+		}
+	  100% {
+	    opacity: 1;
+	  }
+	}
+
+</style>
+
+</head>
+<body>
+<div class="site-title"><a class="title-link" href="index.html">matyaslagos.net</a></div>
+
+<!--
+<div class="card has-bg bg-paper">
+	<div class="container">
+  <p id="quote" class="card-text">You will always have files that don't play nice with your organizational rationale, and can't be filed in only one place. They demand to exist in two places.</p>
+  </div>
+</div>
+-->
+
+<script>
+				// URL of the text file
+        const fileUrl = 'https://raw.githubusercontent.com/matyaslagos/matyaslagos.github.io/main/Assets/zaffo.txt';
+				// Function for starting date at 12:00 a.m.
+        function startDate(date) {
+            var midnightDate = new Date(date);
+						midnightDate.setHours(0);
+						midnightDate.setMinutes(0);
+						midnightDate.setSeconds(0);
+						midnightDate.setMilliseconds(0);
+            return midnightDate;
+        }
+        // Fetch the text file
+        fetch(fileUrl)
+            .then(response => {
+                // Check if response is successful
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Return the text of the response
+                return response.text();
+            })
+            .then(text => {
+                // Split text into lines
+                const lines = text.split('\n');
+                // Get the current day of the year
+                const startingDate = startDate('2024-02-25');
+                const currentDate = new Date();
+                const millisecondsPerDay = 1000 * 60 * 60 * 24;
+                const daysPassed = Math.floor((currentDate - startingDate) / millisecondsPerDay);
+                // Calculate the index of the line to display
+                const lineIndex = daysPassed % lines.length;
+                // Get the line to display
+                const lineToDisplay = lines[lineIndex];
+                // Print the line into the body of the website
+                document.getElementById('quote').innerHTML = lineToDisplay;
+								// (Not) add 1 to get the line number and display it as count
+								const lineNo = lineIndex;
+								document.getElementById('count').innerText = lineNo;
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+</script>
+
+<div>
+
+<div class="card has-bg bg-paper">
+	<div class="container">
+  <p id="quote" class="card-text"></p>
+  </div>
+	<p id="count" class="counter"></p>
+</div>
+
+<div class="disclaimer">
+	<p>Minden nap egy idézet a <a href="https://www.howtogeek.com/15677/zen-and-the-art-of-file-and-folder-organization/">Zen and the Art of File and Folder Organization</a> című cikkből.</p>
+</div>
+
+</div>
+</body>
+</html>
+
+
+</body>
+</html>
+
+
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"
+			charset="UTF-8">
+<title>Napló</title>
+<link rel="stylesheet" href="theme.css">
+    <style>
+    	img {
+    		max-width: 80vw;
+    		max-height: 90vh;
+    		padding-bottom: 4pt;
+    	}
+      .stream {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 20px;
+              }
+              .post {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+              }
+      	.date {
+      		line-height: 22pt;
+      	}
+        .navigation {
+            margin: 40px 0;
+            text-align: center;
+        }
+        .nav-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+        .nav-button:hover {
+            background-color: #f5f5f5;
+        }
+        .nav-button:disabled {
+            cursor: default;
+            opacity: 0.5;
+            background-color: #f5f5f5;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    </head>
+    <body>
+    <div class="site-title"><a class="title-link" href="index.html">matyaslagos.net</a></div>
+
+    <div class="page-title">Napló</div>
+
+    <div class="stream" id="stream">
+    </div>
+
+    <div class="navigation">
+        <button id="newerBtn" class="nav-button hidden"><</button>
+        <button id="olderBtn" class="nav-button">></button>
+    </div>
+
+    <script>
+        // Initialize
+        let currentPage = 0;
+        const postsPerPage = 20;
+        
+        // Helper function to create a post element
+        function createPostElement(imgSrc, date, style) {
+            const post = document.createElement('div');
+            post.className = 'post';
+            
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            if (style.width) img.style.width = style.width;
+            if (style.marginLeft) img.style.marginLeft = style.marginLeft;
+            if (style.height) img.style.height = style.height;
+            
+            const dateSpan = document.createElement('span');
+            dateSpan.className = 'date';
+            dateSpan.textContent = date;
+            
+            post.appendChild(img);
+            post.appendChild(dateSpan);
+            
+            return post;
+        }
+
+        // Load initial posts and setup navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const stream = document.getElementById('stream');
+            const olderBtn = document.getElementById('olderBtn');
+            const newerBtn = document.getElementById('newerBtn');
+            
+            // Define all posts (keeping original styling)
+            const allPosts = [
+              { img: "https://live.staticflickr.com/65535/54103930640_7ebff979ab_o.png", date: "2024-10-29", style: {width: "325px", marginLeft: "1.5%"}},
+
+              { img: "https://live.staticflickr.com/65535/54103733828_f603d39882_o.png", date: "2024-10-29", style: { width: "500px"}},
+
+              { img: "https://live.staticflickr.com/65535/53972083654_a247af2b3a_o.png", date: "2024-09-05", style: { width: "325px"}},
+
+              { img: "https://live.staticflickr.com/65535/53938092049_24563d53f5_o.png", date: "2024-08-21", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/4FBRPqh/2024-06-22-szobanoveny.png", date: "2024-06-22", style: {width: "250px", marginLeft: "1%"}},
+
+              { img: "https://i.ibb.co/5Txc2GQ/2024-06-22-szalveta.png", date: "2024-06-22", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/jRNsxSd/2024-06-21-tabla.png", date: "2024-06-21", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/LgCPYpL/2024-05-17-csiga.png", date: "2024-05-17", style: {width: "75px", marginLeft: "1%"}},
+
+              { img: "https://i.ibb.co/VtDv3PJ/2024-05-04-kutya-szobor.png", date: "2024-05-04", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/bRqz081/2024-05-04-padlocsempek.png", date: "2024-05-04", style: { width: "300px"}},
+
+              { img: "https://i.ibb.co/xhcC3ry/2024-05-02-automata.png", date: "2024-05-02", style: { width: "150px"}},
+
+              { img: "https://i.ibb.co/TKp40Yp/2024-04-27-pekseg-tanyerok.png", date: "2024-04-27", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/gRXq5sq/2024-03-25-szekek.png", date: "2024-03-25", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/B23L23r/2024-03-15-nadrag.png", date: "2024-03-17", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/7NCxCcV/2024-03-17-suto-kijelzoje.png", date: "2024-03-15", style: {width: "300px", marginLeft: "1%"}},
+
+              { img: "https://i.ibb.co/CwrT0rN/2024-03-15-alma.png", date: "2024-03-15", style: { width: "175px"}},
+
+              { img: "https://i.ibb.co/2sLxNh1/2024-03-08-kapocsok.png", date: "2024-03-08", style: { width: "75px"}},
+
+              { img: "https://i.ibb.co/xD7kpHN/2024-03-08-ceg-logo.png", date: "2024-03-08", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/qg6LjtF/2024-03-04-tarsashaz-erkelyei-delutan.png", date: "2024-03-04", style: {width: "400px", marginBottom: "-5pt"}},
+
+              { img: "https://i.ibb.co/hCY9QFF/2024-03-04-szek-forditva.png", date: "2024-03-04", style: { width: "175px"}},
+
+              { img: "https://i.ibb.co/yVcVSPf/2024-03-01-szalon.png", date: "2024-03-01", style: { width: "100px"}},
+
+              { img: "https://i.ibb.co/k9mj8Y7/2024-02-29-marlenka-eteltartoban.png", date: "2024-02-29", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/3zDPKRh/2024-02-27-hosszabbito-gomb.png", date: "2024-02-27", style: { width: "150px"}},
+
+              { img: "https://i.ibb.co/cX1kn7x/2024-02-25-cipzar-fogo.png", date: "2024-02-25", style: { width: "75px"}},
+
+              { img: "https://i.ibb.co/6rkK4qP/2024-02-18-fakanal-es-arnyeka.png", date: "2024-02-18", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/VMDHd58/2024-02-08-hdmi-bemenet.png", date: "2024-02-08", style: { width: "100px"}},
+
+              { img: "https://i.ibb.co/JxbKVpY/2024-02-04-novenyem-reggel-2.png", date: "2024-02-04", style: {width: "225px", paddingLeft: "2%"}},
+
+              { img: "https://i.ibb.co/jZcCMD1/2024-01-30-eldobott-gyumolcsleves-doboz.png", date: "2024-01-30", style: { width: "50px"}},
+
+              { img: "https://i.ibb.co/M6ng0nf/2024-01-29-felmosorongy-szarazon.png", date: "2024-01-29", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/vv9YsTY/2024-01-28-tele-kukak-kicsi.png", date: "2024-01-28", style: { width: "150px"}},
+
+              { img: "https://i.ibb.co/kXPqQCP/2024-01-27-koruti-viragarus-ablakai-este.png", date: "2024-01-27", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/Mh42qj9/2024-01-27-regi-kiarusitas-reklam.png", date: "2024-01-27", style: { width: "400px"}},
+
+              { img: "https://i.ibb.co/SxMN4vw/2024-01-25-zoknik-tura-utan.png", date: "2024-01-25", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/V9mrnW8/2024-01-25-letort-fadarab-belseje-i.png", date: "2024-01-25", style: { height: "250px"}},
+
+              { img: "https://i.ibb.co/T80vJwr/2024-01-25-letort-fadarab-belseje-ii.png", date: "2024-01-25", style: { height: "250px"}},
+
+              { img: "https://i.ibb.co/c6GRmwC/2024-01-25-macskako.png", date: "2024-01-25", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/mGnWr8R/2024-01-22-hegyezo-belseje.png", date: "2024-01-22", style: { height: "150px"}},
+
+              { img: "https://i.ibb.co/rM7hxhF/2024-01-20-szunyoghalo-ragaszto.png", date: "2024-01-20", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/28hw5f4/2024-01-19-molino.png", date: "2024-01-19", style: {width: "250px", paddingBottom: "0pt"}},
+
+              { img: "https://i.ibb.co/TLRfZb7/2024-01-19-belatas.png", date: "2024-01-19", style: {width: "300px", marginBottom: "-10pt", paddingLeft: "1.5%"}},
+
+              { img: "https://i.ibb.co/JpFkPXt/masodik-kedvenc-cipo.png", date: "2024-01-15", style: { width: "350px"}},
+
+              { img: "https://i.ibb.co/7WfngRh/redony-huzo-vege.png", date: "2024-01-15", style: { height: "100px"}},
+
+              { img: "https://i.ibb.co/1mPZ1sk/lavorok.png", date: "2024-01-14", style: {width: "200px", marginBottom: "-6pt"}},
+
+              { img: "https://i.ibb.co/NnPK8py/ajtonyito.png", date: "2024-01-12", style: { width: "200px"}},
+
+              { img: "https://i.ibb.co/Vpnyzz2/szendvics-zaszlo.png", date: "2024-01-11", style: { width: "250px"}},
+
+              { img: "https://i.ibb.co/xhf0zvC/2024-01-10-kapaszkodo.png", date: "2024-01-10", style: { height: "250px"}},
+		
+              { img: "https://i.ibb.co/8PRNx3Y/szek-parkolo.png", date: "2024-01-10", style: { height: "300px"}},
+		
+              { img: "https://i.ibb.co/98nFKsX/sportszelet.png", date: "2024-01-08", style: { width: "150px"}},
+		
+              { img: "https://i.ibb.co/D4JSZpP/villamosmegallo.png", date: "2024-01-06", style: { width: "350px"}},
+		
+              { img: "https://i.ibb.co/PGDB09d/szendvics-2.png", date: "2024-01-05", style: { height: "275px"}},
+		
+              { img: "https://i.ibb.co/RYD2gxh/szendvics-1.png", date: "2024-01-05", style: { width: "300px"}},
+		
+              { img: "https://i.ibb.co/qWkbMT4/coffee-time.png", date: "2024-01-04", style: { width: "350px"}},
+		
+              { img: "https://i.ibb.co/k47f4XX/cipok.png", date: "2024-01-03", style: { width: "350px"}},
+		
+              { img: "https://i.ibb.co/Qr92X81/lamp.png", date: "2024-01-02", style: { height: "350px"}},
+		
+              { img: "https://i.ibb.co/pLHtM5d/bkk.png", date: "2023-12-31", style: { height: "400px"}},
+		
+              { img: "https://i.ibb.co/84ksZHQ/fankok.png", date: "2023-12-29", style: { width: "250px"}},
+		
+              { img: "https://i.ibb.co/ScrW5T6/coffee-can.png", date: "2023-12-29", style: { width: "250px"}},
+		
+              { img: "https://i.ibb.co/b5L2Sym/uveges.png", date: "2023-12-27", style: { width: "300px"}},
+		
+              { img: "https://i.ibb.co/d49VPGr/blinds.jpg", date: "2023-12-26", style: { height: "300px"}},
+		
+              { img: "https://i.ibb.co/DbWCsZd/IMG-5984.jpg", date: "2023-12-24", style: { width: "350px"}},
+		
+              { img: "https://i.ibb.co/7ym62D0/IMG-5977.jpg", date: "2023-12-24", style: { height: "250px"}},
+		
+              { img: "https://i.ibb.co/7vrYxc7/clock.png", date: "2023-12-24", style: { height: "300px"}},
+		
+              { img: "https://i.ibb.co/JHfgKJ8/perfume.png", date: "2023-12-23", style: { height: "400px"}},
+		
+              { img: "https://i.ibb.co/dgQGdnf/iiih.png", date: "2023-12-13", style: { height: "300px"}},
+		
+              { img: "https://i.ibb.co/xG17yXd/IMG-5922.jpg", date: "2023-12-03", style: { width: "350px"}},
+		
+              { img: "https://i.ibb.co/jgxWc2g/szovetek.png", date: "2023-12-02", style: { height: "350px"}},
+		
+              { img: "https://i.ibb.co/FqW5S2p/2023-11-29-anna-noveny.png", date: "2023-11-29", style: { height: "300px"}},
+                // ... (all other posts would go here)
+            ];
+
+            function loadPage(pageNumber) {
+                // Clear current posts
+                stream.innerHTML = '';
+                
+                const start = pageNumber * postsPerPage;
+                const end = Math.min(start + postsPerPage, allPosts.length);
+                
+                // Load posts for current page
+                for (let i = start; i < end; i++) {
+                    const post = allPosts[i];
+                    stream.appendChild(createPostElement(post.img, post.date, post.style));
+                }
+                
+                // Update navigation buttons
+                newerBtn.classList.toggle('hidden', pageNumber === 0);
+                olderBtn.classList.toggle('hidden', end >= allPosts.length);
+                
+                // Update current page
+                currentPage = pageNumber;
+                
+                // Scroll to top of the page
+                window.scrollTo(0, 0);
+            }
+
+            // Add click handlers
+            olderBtn.addEventListener('click', () => loadPage(currentPage + 1));
+            newerBtn.addEventListener('click', () => loadPage(currentPage - 1));
+            
+            // Load initial page
+            loadPage(0);
+        });
+    </script>
+</body>
+</html>
